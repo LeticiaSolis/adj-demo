@@ -4,8 +4,10 @@ WORKDIR /app
 
 COPY . .
 
-RUN mvn clean package -DsikpTest && cp target/*.jar app.jar
+
+RUN mvn clean package -DskipTests && cp target/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+ENTRYPOINT [ "java","-jar","app.jar"]
