@@ -25,6 +25,8 @@ services:
       - "3000:80"
     networks:
       - adj-net
+    depends_on:
+      - database
 
   backend:
     image: server:v1.0
@@ -41,6 +43,8 @@ services:
       - "8081:8080"
     networks:
       - adj-net
+    depends_on:
+      - frontend
 
 #crear estas redes docker create bridge
 networks:

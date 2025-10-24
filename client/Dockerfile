@@ -8,20 +8,20 @@ RUN npm install
 
 COPY . .
 
-ARG API_HOST 
-ARG API_PORT 
-ARG API_BASE 
+ARG API_HOST
+ARG API_PORT
+ARG API_BASE
 
-ENV VITE_API_HOST
-ENV VITE_API_PORT 
-ENV VITE_API_BASE 
+ENV VITE_API_HOST=$API_HOST
+ENV VITE_API_PORT=$API_PORT
+ENV VITE_API_BASE=$API_BASE
 
 RUN npm run build
- 
-FROM nginxalpine
 
-COPY --frombuild /app/dist /usr/share/nginx/html
+FROM nginx:alpine
+
+COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "demo off;"]
+CMD ["nginx", "-g", "daemon off;"]
