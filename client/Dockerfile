@@ -8,10 +8,12 @@ COPY . .
 ARG API_HOST
 ARG API_PORT
 ARG API_BASE
+ARG API_PROTOCOL
 
 ENV VITE_API_HOST=$API_HOST
 ENV VITE_API_PORT=$API_PORT
 ENV VITE_API_BASE=$API_BASE
+ENV VITE_API_PROTOCOL=$API_PROTOCOL
 
 RUN npm run build
 
@@ -19,7 +21,11 @@ RUN npm run build
 #etapa 2 de imagen:
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
+
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]
 #comentario: Esta es una imagen de nginx que sirve una aplicacion construida con node.js
 #comentario: La primera etapa construye la aplicacion y la segunda etapa sirve los archivos estaticos con nginx
